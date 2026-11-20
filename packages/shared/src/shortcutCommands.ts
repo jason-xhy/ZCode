@@ -14,6 +14,7 @@ export type ShortcutChannel = "window" | "menu";
 export type ShortcutCommandId =
   | "toggleInterfaceMode"
   | "openOnboarding"
+  | "toggleVimNavigation"
   | "openCommandCenter"
   | "openSettings"
   | "findInTask"
@@ -100,6 +101,9 @@ export const SHORTCUT_COMMANDS: readonly ShortcutCommandEntry[] = [
   },
   { id: "toggleInterfaceMode", channel: "window", defaultBindings: ["CmdOrCtrl+Shift+u"] },
   { id: "openOnboarding", channel: "window", defaultBindings: ["CmdOrCtrl+Shift+o"] },
+  // Vim 键盘导航开关：普通模式裸键由 ui/src/vim 消费，本命令只负责开/关，
+  // 不把 h/j/k/l 等裸键写进全局快捷键表（否则会抢输入框打字）。
+  { id: "toggleVimNavigation", channel: "window", defaultBindings: ["CmdOrCtrl+Alt+v"] },
 ];
 
 /** 按命令 ID 取默认绑定；未知命令返回空数组（生效表 resolve 对未知命令整体忽略）。 */

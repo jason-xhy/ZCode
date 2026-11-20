@@ -10,6 +10,7 @@ import { useAppPanels } from "@/hooks/useAppPanels.js";
 import { useGitAutoRefresh } from "@/hooks/useGitAutoRefresh.js";
 import { useGitRepository } from "@/hooks/useGitRepository.js";
 import { useAppKeyboard } from "@/hooks/useAppKeyboard.js";
+import { VimModeIndicator, toggleVimNavigationMode, useVimNavigation } from "@/vim/index.js";
 import { useSidePaneFullView } from "@/side-pane-full-view/index.js";
 import { usePlatform } from "@/hooks/usePlatform.js";
 import { useWorkspaceProviderConfigFile } from "@/hooks/useWorkspaceProviderConfigFile.js";
@@ -1055,6 +1056,8 @@ export function App({
 
   useAppKeyboard({
     openCommandCenter: handleOpenQuickPick,
+    // Vim 键盘导航总开关：普通模式裸键由 ui/src/vim 层消费，这里只负责开/关。
+    toggleVimNavigation: toggleVimNavigationMode,
     // 打开设置页：与设置入口按钮共用 tabStore.openSettingsTab；默认 ⌘,/Ctrl+,（系统惯例）
     openSettings: openSettingsTab,
     findInTask: handleOpenTaskFind,
@@ -1075,6 +1078,17 @@ export function App({
     navigateForward: canTaskNavForward
       ? () => runVisibleWorkspaceCommand(handleTaskNavForward)
       : null,
+  });
+
+  // Vim 普通模式的动作桥：裸键 h/j/k/l、gg/G、d/u、: / 、[ ] 等由 vim 层
+  // 状态机解析，落到既有命令入口（与快捷键/按钮共用同一条执行链，避免行为漂移）。
+  useVimNavigation({
+    openCommandCenter: handleOpenQuickPick,
+    findInTask: handleOpenTaskFind,
+    toggleSidebar: () => runVisibleWorkspaceCommand(handleToggleSidebar),
+    toggleTerminal: () => runVisibleWorkspaceCommand(handleToggleTerminalIfWritable),
+    previousConversation: handleSelectPreviousConversation,
+    nextConversation: handleSelectNextConversation,
   });
 
   useEffect(() => {
@@ -1137,6 +1151,7 @@ export function App({
           logout: onLogout,
           toggleSidebar: () => runVisibleWorkspaceCommand(handleToggleSidebar),
           toggleTerminal: () => runVisibleWorkspaceCommand(handleToggleTerminalIfWritable),
+          toggleVimNavigation: toggleVimNavigationMode,
           togglePreview: () => runVisibleWorkspaceCommand(handleToggleBrowser),
           openTerminalTab: () => runVisibleWorkspaceCommand(handleOpenTerminalTabIfWritable),
           openBrowserTab: () => runVisibleWorkspaceCommand(handleOpenBrowserTab),
@@ -1238,6 +1253,8 @@ export function App({
       {/* Bugfix: 反馈是应用级能力，必须固定走本机 base host；SSH session 连接中或断开时，
           workspace-scoped services 会切成断连代理，不能让反馈提交跟随远程 session 失效。 */}
       <FeedbackHost feedbackService={baseFeedbackService} platform={platform} />
+      {/* Vim 导航开关打开后显示 NORMAL/INSERT 徽标与 ? 键位帮助；关闭时渲染 null。 */}
+      <VimModeIndicator />
       <PluginUiWorkspaceProvider onOpenSidePane={handleOpenPluginUi}>
         {/* 扩展视图标签的打开入口：启动页条目与能力 views.open（docs/plugins/extension-host.md §8）。 */}
         <ExtensionViewsProvider

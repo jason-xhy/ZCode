@@ -5,6 +5,7 @@ export type QuickPickCommandIcon =
   | "diff"
   | "feedback"
   | "folder"
+  | "keyboard"
   | "login"
   | "logout"
   | "message"
@@ -61,6 +62,8 @@ interface QuickPickCommandHandlers {
   logout?: () => void | Promise<void>;
   toggleSidebar: () => void;
   toggleTerminal: () => void;
+  /** Vim 键盘导航开/关（普通模式裸键导航）。 */
+  toggleVimNavigation: () => void;
   togglePreview: () => void;
   openTerminalTab: () => void;
   openBrowserTab: () => void;
@@ -146,6 +149,14 @@ export function createQuickPickCommands({
       shortcut: shortcuts.toggleTerminal,
       keywords: ["terminal", "shell", "console", "终端"],
       run: handlers.toggleTerminal,
+    },
+    {
+      id: "toggle-vim-navigation",
+      sectionId: "panels",
+      titleId: "quickPick.command.toggleVimNavigation",
+      icon: "keyboard",
+      keywords: ["vim", "nvim", "keyboard", "navigation", "hjkl", "键盘导航", "vim 模式"],
+      run: handlers.toggleVimNavigation,
     },
     ...(supportsEmbeddedBrowser
       ? [

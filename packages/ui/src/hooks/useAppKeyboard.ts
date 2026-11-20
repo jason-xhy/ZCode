@@ -7,6 +7,7 @@ import {
   matchesShortcutBinding,
 } from "@/shortcuts/bindings.js";
 import { useEffectiveShortcutBindings } from "@/shortcuts/useShortcutBindings.js";
+import { isVimNavigationEnabled } from "@/vim/vimStore.js";
 
 /** window 通道快捷键的处理器表：命令 ID → 回调；null/缺失表示该命令当前不可用。 */
 export type AppKeyboardHandlers = Partial<Record<ShortcutCommandId, (() => void) | null>>;
@@ -32,6 +33,22 @@ export function useAppKeyboard(handlers: AppKeyboardHandlers) {
       // 录制态短路：录制监听注册晚于本监听（同阶段先注册先执行），不短路的话
       // 录制按下的组合会先触发原命令，改键永远不成功（见 setShortcutRecordingActive 注释）。
       if (isShortcutRecordingActive()) {
+        return;
+      }
+
+      // Vim 导航开启时，输入框内的 Ctrl+[ 是「退出输入态」手势（协议 §2.1），
+      // 必须留给 vim 层：否则应用层 CmdOrCtrl+[（navigateBack）会先用
+      // preventDefault 把事件吃掉，浮层输入框里的 Ctrl+[ 永远到不了 vim。
+      // 只在可编辑目标上让路，页面级别的 Ctrl+[ 仍保持 navigateBack。
+      if (
+        isVimNavigationEnabled() &&
+        event.ctrlKey &&
+        !event.metaKey &&
+        !event.altKey &&
+        !event.shiftKey &&
+        event.key === "[" &&
+        isEditableShortcutEventTarget(event.target)
+      ) {
         return;
       }
 

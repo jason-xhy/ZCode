@@ -1320,6 +1320,7 @@ const enUS: Record<string, string> = {
   "quickPick.command.skills": "Skills",
   "quickPick.command.toggleSidebar": "Toggle sidebar",
   "quickPick.command.toggleTerminal": "Toggle terminal",
+  "quickPick.command.toggleVimNavigation": "Toggle Vim keyboard navigation",
   "quickPick.command.togglePreview": "Toggle preview",
   "quickPick.command.addTerminalTab": "Add terminal tab",
   "quickPick.command.addBrowserTab": "Add browser tab",
@@ -3779,6 +3780,7 @@ const enUS: Record<string, string> = {
   "settings.shortcuts.command.nextConversation": "Next Task",
   "settings.shortcuts.command.toggleInterfaceMode": "Toggle coding/office mode",
   "settings.shortcuts.command.openOnboarding": "Toggle onboarding",
+  "settings.shortcuts.command.toggleVimNavigation": "Toggle Vim Keyboard Navigation",
   "settings.shortcuts.command.navigateBack": "Navigate Back",
   "settings.shortcuts.command.navigateForward": "Navigate Forward",
   "settings.shortcuts.command.openModelMenu": "Open Model Menu",
@@ -3801,6 +3803,9 @@ const enUS: Record<string, string> = {
   "settings.uiFontSize": "UI font size",
   "settings.uiFontSizeDescription":
     "Adjust interface text without changing icons or layout dimensions.",
+  "settings.vimNavigation": "Vim keyboard navigation",
+  "settings.vimNavigationDescription":
+    "Navigate with bare keys (f jumps with labels, s searches two characters). Toggle anytime with the shortcut (Ctrl+Alt+V; ⌘⌥V on macOS).",
   "settings.agentBehavior.title": "Behavior and tools",
   "settings.systemTitle": "General",
   "settings.systemDescription": "These preferences affect the current window experience.",
@@ -9085,6 +9090,35 @@ const enUS: Record<string, string> = {
   "voiceInput.error.audio_limit_exceeded":
     "The recording reached the maximum length. The recognized text was kept.",
   "voiceInput.error.failed": "Speech recognition failed. Try again.",
+  "vim.indicator.normal": "NORMAL",
+  "vim.indicator.insert": "INSERT",
+  "vim.help.title": "Vim Keyboard Navigation",
+  "vim.help.subtitle":
+    "Normal mode when focus is outside a text field; focusing a text field enters insert mode. Press Ctrl+[ or Esc to return to normal mode.",
+  "vim.help.closeHint": "Press ? or Esc to close",
+  "vim.help.move": "Move down / up (select tasks in the sidebar, scroll the main area)",
+  "vim.help.halfPage": "Scroll half a page down / up",
+  "vim.help.edge": "Scroll to top / bottom",
+  "vim.help.region": "Focus the previous / next region (sidebar and main area)",
+  "vim.help.insert": "Focus the chat composer (insert mode)",
+  "vim.help.exit": "Leave the composer and return to normal mode",
+  "vim.help.leavePane":
+    "Return to normal mode in the main area from the terminal, any input, or any pane",
+  "vim.help.hint":
+    "easymotion hints: label every clickable element in the window; type a label to open it",
+  "vim.help.sneak":
+    "sneak search: type two characters to jump to visible text; ; / , cycles matches; Enter opens the containing control",
+  "vim.help.commandCenter": "Open command center",
+  "vim.help.find": "Find in task",
+  "vim.help.conversation": "Previous / next task",
+  "vim.help.sidebar": "Toggle sidebar",
+  "vim.help.terminal": "Toggle terminal",
+  "vim.help.help": "Show / close this help",
+  "vim.overlay.cancel": "Esc to cancel",
+  "vim.overlay.sneakCycle": "next · previous · Enter opens",
+  "vim.overlay.sneakNoMatch": "no match · Backspace to retype · Esc to exit",
+  "vim.overlay.sneakType": "type two characters",
+  "vim.overlay.noTargets": "No targets in this view · Esc to exit",
   ...requestSecurityMessagesEnUS,
 };
 

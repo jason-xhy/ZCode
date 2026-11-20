@@ -22,6 +22,7 @@ import { useZCodeIntl } from "@/i18n/IntlProvider.js";
 import type { CodePreviewSettings } from "@/store/index.js";
 import { THEME_MODES } from "@/settings/settingsPageConfig.js";
 import { MAX_UI_FONT_SIZE_PX, MIN_UI_FONT_SIZE_PX } from "@/lib/uiFontSize.js";
+import { setVimNavigationEnabled, useVimNavigationEnabled } from "@/vim/index.js";
 
 function FontSizeInput({
   value,
@@ -101,6 +102,7 @@ export function AppearanceSectionContent({
 }) {
   const { intl } = useZCodeIntl();
   const activePreviewMode = resolveTheme(theme);
+  const vimNavigationEnabled = useVimNavigationEnabled();
 
   return (
     <>
@@ -175,6 +177,19 @@ export function AppearanceSectionContent({
                 }
               />
             ) : null}
+            <SettingsRow
+              searchId="settings.vimNavigation"
+              label={intl.formatMessage({ id: "settings.vimNavigation" })}
+              description={intl.formatMessage({ id: "settings.vimNavigationDescription" })}
+              control={
+                <Switch
+                  data-testid="settings-vim-navigation-switch"
+                  aria-label={intl.formatMessage({ id: "settings.vimNavigation" })}
+                  checked={vimNavigationEnabled}
+                  onCheckedChange={setVimNavigationEnabled}
+                />
+              }
+            />
           </CardContent>
         </Card>
       </div>

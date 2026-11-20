@@ -193,6 +193,12 @@ export const SETTINGS_SEARCH_ITEMS = [
     visibility: "all",
   },
   {
+    id: "settings.vimNavigation",
+    section: "appearance",
+    description: "settings.vimNavigationDescription",
+    visibility: "all",
+  },
+  {
     id: "settings.lightTheme",
     section: "appearance",
     description: "settings.lightThemeDescription",
